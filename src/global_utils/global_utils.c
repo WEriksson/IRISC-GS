@@ -1,6 +1,6 @@
 /* -----------------------------------------------------------------------------
  * Component Name: Global Utils
- * Author(s): Adam Śmiałek, Harald Magnusson
+ * Author(s): Adam Śmiałek, Harald Magnusson, William Eriksson
  * Purpose: Define utilities and constants available to all components.
  *
  * -----------------------------------------------------------------------------
@@ -17,6 +17,7 @@
 #include <libgen.h>
 #include <limits.h>
 #include <errno.h>
+#include <time.h>
 
 #include "global_utils.h"
 
@@ -155,7 +156,7 @@ int logging(int level, char module_name[12],
 /* a call to pthread_create with additional thread attributes,
  * specifically priority
  */
-int create_thread(char* comp_name, void* (*thread_func)(void*), int prio){
+int create_thread(char* comp_name, void* (*thread_func)(void*), int prio, void *args){
 
     pthread_attr_t attr;
     pthread_t tid;
@@ -202,7 +203,7 @@ int create_thread(char* comp_name, void* (*thread_func)(void*), int prio){
         return ret;
     }
 
-    ret = pthread_create(&tid, &attr, thread_func, NULL);
+    ret = pthread_create(&tid, &attr, thread_func, args);
     if(ret != 0){
         fprintf(stderr,
             "Failed pthread_create of %s component. "
@@ -213,4 +214,18 @@ int create_thread(char* comp_name, void* (*thread_func)(void*), int prio){
     pthread_setname_np(tid, comp_name);
 
     return SUCCESS;
+}
+
+void get_time(char *buffer){
+
+    struct tm date_time;
+    time_t epoch_time;
+
+    time(&epoch_time);
+    localtime_r(&epoch_time, &date_time);
+
+    sprintf(buffer, "%02d:%02d:%02d",
+                    date_time.tm_hour, date_time.tm_min, date_time.tm_sec);
+
+    return;
 }

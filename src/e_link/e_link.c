@@ -1,6 +1,6 @@
 /* -----------------------------------------------------------------------------
- * Component Name:
- * Author(s): 
+ * Component Name: E_link
+ * Author(s): William Eriksson
  * Parent Component: [if applicable]
  * Purpose: 
  *
@@ -20,24 +20,27 @@
 #include <termios.h>
 #include <sys/ioctl.h>
 
-#define SERVER_IP "10.42.0.175"
-#define SERVER_PORT 1337
-#define SERVER_PORT_BACKUP 420
+#include "global_utils.h"
 
 int sockfd;
 
-void init_elink(void* args){
+int init_elink(void* args){
 
-    int portno, n, ost;
     struct sockaddr_in serv_addr;
     struct hostent *server;
-
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (0) 
-        printf("ERROR opening socket");
-    if (server == NULL) {
-        fprintf(stderr,"ERROR, no such host\n");
-        exit(0);
+    while(1){
+        sockfd = socket(AF_INET, SOCK_STREAM, 0);
+        if (0) {
+            printf("ERROR opening socket");
+            continue;
+        }
+        server = gethostbyname(SERVER_IP);
+        if (server == NULL) {
+            fprintf(stderr,"ERROR, no such host\n");
+            sleep(5);
+            continue;
+        }
+        break;
     }
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
@@ -52,7 +55,7 @@ void init_elink(void* args){
             printf("ERROR connecting on backup port\n");
         }
     }
-    return;
+    return SUCCESS;
 }
 
 int send_e_link( char buffer[1400], int bytes){
@@ -61,23 +64,34 @@ int send_e_link( char buffer[1400], int bytes){
 
     n = write(sockfd, buffer, bytes);
     if (n < 0) {
-         error("ERROR writing to socket");
+         printf("ERROR writing to socket");
     }
 
     return 1;
 }
 
-int read_e_link(char *buffer, int bytes){
+int read_e_link(char *buffer, int bytes, int check_buffer){
 
     int n, bytes_avail;
 
-    do{
+    if(check_buffer){
         ioctl(sockfd, FIONREAD, &bytes_avail);
-        sleep(1);
-    } while(bytes_avail < bytes);
-
+        while(bytes_avail < bytes){
+            usleep(1);
+            ioctl(sockfd, FIONREAD, &bytes_avail);
+            //printf("Ostkaka\n");
+        }
+    }
+/*
+    printf("Data read: ");
+    for (size_t i = 0; i < bytes; i++)
+    {
+        printf("%x", buffer[i]);
+    }
+    printf("\n");
+*/
     n = read(sockfd, buffer, bytes);
-    if(n == -1){
+    if(n == -1 || n == 0){
         printf("read error: %s\n", strerror(errno));
     }
 

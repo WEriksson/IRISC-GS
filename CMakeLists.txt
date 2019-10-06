@@ -4,7 +4,7 @@ project(irisc_Gs)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 # compiler flags
-set(CFLAGS "-O2 -std=gnu17 -Wall -Wpedantic")
+set(CFLAGS "-O2 -std=gnu17 -Wall -Wpedantic -rdynamic")
 # useful defines: GYRO_DEBUG, GPS_DEBUG, ENCODER_DEBUG, ST_TEST, SEQ_TEST, SEQ_DEBUG
 set(COMPILE_DEFINES "-DST_DEBUG -DSEQ_TEST -DSEQ_DEBUG -DST_TEST -DGYRO_DEBUG -DGPS_DEBUG -DENCODER_DEBUG")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CFLAGS} ${COMPILE_DEFINES}")
@@ -12,6 +12,18 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${CFLAGS} ${COMPILE_DEFINES}")
 # linker flags
 set(LDFLAGS "-lrt -lm -pthread -lcfitsio -lzstd")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${LDFLAGS}")
+
+# Use the package PkgConfig to detect GTK+ headers/library files
+FIND_PACKAGE(PkgConfig REQUIRED)
+PKG_CHECK_MODULES(GTK3 REQUIRED gtk+-3.0)
+
+# Setup CMake to use GTK+, tell the compiler where to look for headers
+# and to the linker where to look for libraries
+INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
+LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS})
+
+# Add other flags to the compiler
+ADD_DEFINITIONS(${GTK3_CFLAGS_OTHER})
 
 # list of sources
 set(SCR_DIR ${CMAKE_SOURCE_DIR}/src)
@@ -21,6 +33,7 @@ set(SOURCES
 	${SCR_DIR}/e_link/e_link.c
 	${SCR_DIR}/telemetry/telemetry.c
 	${SCR_DIR}/telecommand/telecommand.c
+	${SCR_DIR}/ui/ui.c
 )
 
 # list of libraries
@@ -39,4 +52,4 @@ include_directories(${DIRS})
 include_directories(${CMAKE_SOURCE_DIR}/include/)
 
 add_executable(irisc-gs ${SOURCES})
-target_link_libraries(irisc-gs ${LIBS})
+target_link_libraries(irisc-gs "${LIBS}${GTK3_LIBRARIES}")

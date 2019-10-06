@@ -1,6 +1,6 @@
 /* -----------------------------------------------------------------------------
- * Component Name:
- * Author(s): 
+ * Component Name: Init
+ * Author(s): William Eriksson
  * Parent Component: [if applicable]
  * Purpose: 
  *

@@ -1,6 +1,6 @@
 /* -----------------------------------------------------------------------------
  * Component Name: Global Utils
- * Author(s): Adam Śmiałek, Harald Magnusson
+ * Author(s): Adam Śmiałek, Harald Magnusson, William Eriksson
  * Purpose: Define utilities and constants available to all components.
  *
  * -----------------------------------------------------------------------------
@@ -12,27 +12,16 @@
 #define SUCCESS 0
 #define FAILURE -1
 
-#define EXP_NOT_READY 1
-#define EXP_FAILED 3
-
 /* definitions for socket creation */
-#define DOWNLINK_SERVER_PORT 8888
-#define DOWNLINK_SERVER_IP   "127.0.0.1"
+#define SERVER_IP "10.42.0.175"
+#define SERVER_PORT 1337
+#define SERVER_PORT_BACKUP 420
 
 #define DEBUG   0
 #define INFO    1
 #define WARN    2
 #define ERROR   3
 #define CRIT    4
-
-#define GYRO_TRIG_PIN 26
-
-#define GPS_SAMPLE_TIME 4           /* unit: seconds */
-#define GYRO_SAMPLE_TIME 10000000    /* unit: nanoseconds */
-#define ENCODER_SAMPLE_TIME 10000000 /* unit: nanoseconds */
-
-/* the threshold for the acceptable angular rate of the gondola to start observation phase */
-#define GON_ROT_THRESHOLD 1.0 /* unit: degree per second */
 
 /* struct used for initialisation of modules */
 typedef int (*init_function)(void* args);
@@ -58,4 +47,9 @@ int logging(int level, char module_name[12],
 /* a call to pthread_create with additional thread attributes,
  * specifically priority
  */
-int create_thread(char* comp_name, void *(*thread_func)(void *), int prio);
+int create_thread(char* comp_name, void *(*thread_func)(void *), int prio, void *args);
+
+/*
+ *  Sets buffer to time in format "HH:MM:SS"
+ */
+void get_time(char *buffer);
