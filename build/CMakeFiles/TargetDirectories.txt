@@ -1,3 +1,0 @@
-/home/zodox/Desktop/IRISC-GS/build/CMakeFiles/rebuild_cache.dir
-/home/zodox/Desktop/IRISC-GS/build/CMakeFiles/irisc-gs.dir
-/home/zodox/Desktop/IRISC-GS/build/CMakeFiles/edit_cache.dir

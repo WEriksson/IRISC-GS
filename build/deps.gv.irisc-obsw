@@ -1,8 +1,0 @@
-digraph "GG" {
-node [
-  fontsize = "12"
-];
-    "node1" [ label="irisc-obsw" shape="house"];
-    "node3" [ label="/home/zodox/Desktop/IRISC-GS/lib/libASICamera2.so" shape="ellipse"];
-    "node1" -> "node3" // irisc-obsw -> /home/zodox/Desktop/IRISC-GS/lib/libASICamera2.so
-}
