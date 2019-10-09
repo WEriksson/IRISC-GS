@@ -8,10 +8,12 @@
  */
 #include <gtk/gtk.h>
 #include <string.h>
+#include <stdio.h>
 #include <sys/mman.h>
 
 #include "global_utils.h"
 #include "ui.h"
+#include "telecommand.h"
 
 
 
@@ -26,6 +28,7 @@ GtkWidget   *logg_tm;
 GtkWidget   *input_tc;
 GtkWidget   *tc_button;
 GtkWidget   *timer;
+GtkWidget   *command_tc;
 
 int	countDownMax, countCurrent;
 int	currentRow;
@@ -62,6 +65,7 @@ int init_ui(int argc, char *argv[]){
     input_tc = GTK_WIDGET(gtk_builder_get_object(builder, "input_tc"));
     tc_button = GTK_WIDGET(gtk_builder_get_object(builder, "tc_button"));
     timer = GTK_WIDGET(gtk_builder_get_object(builder, "timer"));
+    command_tc = GTK_WIDGET(gtk_builder_get_object(builder, "command_tc"));
 
 
     text_buffer_tc = gtk_text_view_get_buffer (GTK_TEXT_VIEW(logg_tc));
@@ -99,25 +103,29 @@ void on_tc_button_clicked (GtkButton *b) {
 
     char temp[9];
 
+    char buffer[50];
+
+
+    //char command[20];
+    //command = gtk_entry_get_text(GTK_ENTRY(command_tc));
+
+    //logging(INFO, "ui", "command: %s", gtk_entry_get_text(GTK_ENTRY(command_tc)));
+
+    printf("Check command\n");
+    check_command(gtk_entry_get_text(GTK_ENTRY(command_tc)), gtk_entry_get_text(GTK_ENTRY(input_tc)));
+
     get_time(temp);
 
-    gchar *buffer;
+    snprintf(buffer, 50, "%s: %s %s\n", temp, gtk_editable_get_chars(GTK_EDITABLE(command_tc), 0, -1), gtk_editable_get_chars(GTK_EDITABLE(input_tc), 0, -1));
+
+    //gchar *buffer;
     GtkTextIter begin, end;
-    buffer = gtk_editable_get_chars(GTK_EDITABLE(input_tc), 0, -1);
-
+ 
     gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(text_buffer_tc), &begin, (gint) 0);
-    gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(text_buffer_tc), &end, (gint) -1);
 
-    gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tc), &begin, "\n", -1);
+    gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tc), &begin, buffer, -1);
+    loggfile_tc(buffer);
 
-    gtk_text_buffer_get_iter_at_line_index(GTK_TEXT_BUFFER(text_buffer_tc), &end, 0, -1);
-    gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tc), &end, temp, -1);
-
-    gtk_text_buffer_get_iter_at_line_index(GTK_TEXT_BUFFER(text_buffer_tc), &end, 0, -1);
-    gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tc), &end, ": ", -1);
-    
-    gtk_text_buffer_get_iter_at_line_index(GTK_TEXT_BUFFER(text_buffer_tc), &end, 0, -1);
-    gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tc), &end, buffer, -1);
 }
 
 int print_telemetry(char buffer[512]){
@@ -129,29 +137,12 @@ int print_telemetry(char buffer[512]){
 
     gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tm), &begin, buffer, -1);
 
-
-    //gtk_text_buffer_get_iter_at_line_index(GTK_TEXT_BUFFER(text_buffer_tm), &end, 0, -1);
-    //gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tm), &end, temp, -1);
-    
-    //gtk_text_buffer_get_iter_at_line_index(GTK_TEXT_BUFFER(text_buffer_tm), &end, 0, -1);
-    //gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tm), &end, ": ", -1);
-
-    //gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(text_buffer_tm), &begin, (gint) 0);
-    //gtk_text_buffer_get_iter_at_line_index(GTK_TEXT_BUFFER(text_buffer_tm), &begin, 0, 100);
-    //gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tm), &begin, ": ", -1);
-
-    //gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(text_buffer_tm), &begin, (gint) 0);
-    //gtk_text_buffer_get_iter_at_line_index(GTK_TEXT_BUFFER(text_buffer_tm), &begin, 0, 100);
-    //gtk_text_buffer_insert(GTK_TEXT_BUFFER(text_buffer_tm), &begin, buffer, -1);
-
-    
+    loggfile_tm(buffer);
 
     return SUCCESS;
 }
 
 gboolean timer_handler(GtkWidget *timer) {
-
-    printf("Timer Begin\n");
 
     time_t t = time(0);
     gtk_label_set_text(GTK_LABEL(timer), ctime(&t));    // update time of day
@@ -163,8 +154,6 @@ gboolean timer_handler(GtkWidget *timer) {
         *tm_update_flag=0;
         pthread_mutex_unlock(&downlink_mutex);
     }
-
-    printf("Timer End\n");
 
     return TRUE; // FALSE kills the timer
 }

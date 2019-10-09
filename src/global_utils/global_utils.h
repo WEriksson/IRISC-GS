@@ -53,3 +53,13 @@ int create_thread(char* comp_name, void *(*thread_func)(void *), int prio, void 
  *  Sets buffer to time in format "HH:MM:SS"
  */
 void get_time(char *buffer);
+
+/*
+ *  logg tm in file
+ */
+void loggfile_tm(char *buffer);
+
+/*
+ *  logg tm in file
+ */
+void loggfile_tc(char *buffer);

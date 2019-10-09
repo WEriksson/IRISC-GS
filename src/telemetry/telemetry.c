@@ -89,7 +89,7 @@ int recieve_file(char buffer[1400]){
 
     int fp, n;
     mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-    char path[100] = "/home/zodox/Desktop/IRISC-GS-FILES/";
+    char path[100] = "/home/zodox/Desktop/IRISC-GS-FILES/IMAGES/";
     unsigned short bytes, packets, current_package;
     read_e_link(buffer,6,0);
 

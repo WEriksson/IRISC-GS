@@ -66,6 +66,7 @@ int send_e_link( char buffer[1400], int bytes){
     if (n < 0) {
          printf("ERROR writing to socket");
     }
+    printf("Wrote to socket\n");
 
     return 1;
 }

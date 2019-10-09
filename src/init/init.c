@@ -28,7 +28,7 @@
 #include "ui.h"
 
 /* not including init */
-#define MODULE_COUNT 3
+#define MODULE_COUNT 4
 
 static int init_func(int argc, char* const argv[]);
 
@@ -41,11 +41,13 @@ static const module_init_t init_sequence[MODULE_COUNT] = {
     //{"ui", &init_ui},
     {"e_link", &init_elink},
     {"telemetry", &init_telemetry},
-    //{"telecommand", &init_telecommand},
+    {"telecommand", &init_telecommand},
     {"global_utils", &init_global_utils},
 };
 
 int main(int argc, char* argv[]){
+
+    printf("Start\n");
 
     /* add buffer to stderr */
     if(setvbuf(stderr, stderr_buf, _IOLBF, 4096)){

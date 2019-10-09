@@ -29,6 +29,10 @@
 static char top_dir[TOP_DIR_S];
 static const char* const top_dir_p = top_dir;
 
+static FILE *tc_logg_file;
+static FILE *tm_logg_file;
+
+
 int init_global_utils(void* args){
 
     char* launch_arg = (char*) args;
@@ -72,6 +76,14 @@ int init_global_utils(void* args){
     else{
         top_dir[dir_len - 3] = '\0';
     }
+
+
+    /*
+     * Open files for logging
+     */
+    tc_logg_file = fopen("/home/zodox/Desktop/IRISC-GS-FILES/tc_logg.txt", "a");
+    tm_logg_file = fopen("/home/zodox/Desktop/IRISC-GS-FILES/tm_logg.txt", "a");
+    
 
     return SUCCESS;
 }
@@ -226,6 +238,22 @@ void get_time(char *buffer){
 
     sprintf(buffer, "%02d:%02d:%02d",
                     date_time.tm_hour, date_time.tm_min, date_time.tm_sec);
+
+    return;
+}
+
+void loggfile_tc(char *buffer){
+
+    fprintf(tc_logg_file, "%s", buffer);
+    fflush(tc_logg_file);
+
+    return;
+}
+
+void loggfile_tm(char *buffer){
+
+    fprintf(tm_logg_file, "%s", buffer);
+    fflush(tm_logg_file);
 
     return;
 }
