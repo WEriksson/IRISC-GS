@@ -19,14 +19,13 @@ int init_telecommand(void* args){
     return SUCCESS;
 }
 
-int check_command(char command[20], char value[20]){
+int check_command(const char command[20],const char value[20]){
 
     printf("Command: %s\n", command);
     printf("Value: %s\n", value);
     char cmd[1];
     //char cmd[3];
     char buffer[20];
-    char temp[3];
     int ret;
 
     //ret = strtoi(value, NULL, 10);
@@ -59,6 +58,10 @@ int check_command(char command[20], char value[20]){
         printf("Ping sent\n");
         send_e_link(cmd, 1);
         printf("Case Ping\n");
+    } else if (!strcmp(command,"Set Encoder Offset")){        //Ping
+        cmd[0] = CMD_ENCODER;
+        send_e_link(cmd, 1);
+        printf("Case Encoder\n");
     } else if (!strcmp(command,"Mode")){        //Mode
         //*cmd = CMD_MODE;
         send_e_link(cmd, 2);
@@ -78,6 +81,35 @@ int check_command(char command[20], char value[20]){
     } else if (!strcmp(command,"ST Gain")){        //ST_GAI
         //*cmd = CMD_ST_GAI;
         printf("Case ST_GAI\n");
+    } else if (!strcmp(command,"Step AZ")){        //STEP Az
+        *cmd = CMD_STP_AZ;
+        short step = (short) strtoul(value, NULL, 10);
+
+        char* bytes = (char*)&step;
+        buffer[0] = bytes[0];
+        buffer[1] = bytes[1];
+
+        printf("cmd: %s\n", cmd);
+        printf("value: %s\n", value);
+
+        send_e_link(cmd, 1);
+        send_e_link(buffer, 2);
+        
+        printf("Case STP_AZ\n");
+    } else if (!strcmp(command,"Step ALT")){        //Step alt
+        *cmd = CMD_STP_ALT;
+        short step = (short) strtoul(value, NULL, 10);
+
+        char* bytes = (char*)&step;
+        buffer[0] = bytes[0];
+        buffer[1] = bytes[1];
+
+        printf("cmd: %s\n", cmd);
+        printf("value: %s\n", value);
+        
+        send_e_link(cmd, 1);
+        send_e_link(buffer, 2);
+        printf("Case STP_ALT\n");
     } else {
         printf("Else\n");
         

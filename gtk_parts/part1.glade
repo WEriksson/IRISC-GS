@@ -35,6 +35,15 @@
       <row>
         <col id="0" translatable="yes">ST Gain</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">Step AZ</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Step ALT</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Set Encoder Offset</col>
+      </row>
     </data>
   </object>
   <object class="GtkWindow" id="window">

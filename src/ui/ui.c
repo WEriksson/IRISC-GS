@@ -119,7 +119,7 @@ void on_tc_button_clicked (GtkButton *b) {
     snprintf(buffer, 50, "%s: %s %s\n", temp, gtk_editable_get_chars(GTK_EDITABLE(command_tc), 0, -1), gtk_editable_get_chars(GTK_EDITABLE(input_tc), 0, -1));
 
     //gchar *buffer;
-    GtkTextIter begin, end;
+    GtkTextIter begin;
  
     gtk_text_buffer_get_iter_at_offset(GTK_TEXT_BUFFER(text_buffer_tc), &begin, (gint) 0);
 
