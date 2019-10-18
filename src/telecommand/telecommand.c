@@ -126,6 +126,42 @@ int check_command(const char command[20],const char value[20]){
         send_e_link(cmd, 1);
         send_e_link(buffer, 4);
         printf("Case ST_GAI\n");
+    } else if (!strcmp(command,"Error thresholds AZ")){        //Error thresholds AZ
+        *cmd = CMD_AZ_ERR;
+        double data = (double) strtol(value, NULL, 10);
+
+        char* bytes = (char*)&data;
+
+        buffer[0] = bytes[0];
+        buffer[1] = bytes[1];
+        buffer[2] = bytes[2];
+        buffer[3] = bytes[3];
+        buffer[4] = bytes[4];
+        buffer[5] = bytes[5];
+        buffer[6] = bytes[6];
+        buffer[7] = bytes[7];
+
+        send_e_link(cmd, 1);
+        send_e_link(buffer, 8);
+        printf("Case Error thresholds AZ\n");
+    } else if (!strcmp(command,"Error thresholds ALT")){        //Error thresholds ALT
+        *cmd = CMD_AZ_ERR;
+        double data = (double) strtol(value, NULL, 10);
+
+        char* bytes = (char*)&data;
+
+        buffer[0] = bytes[0];
+        buffer[1] = bytes[1];
+        buffer[2] = bytes[2];
+        buffer[3] = bytes[3];
+        buffer[4] = bytes[4];
+        buffer[5] = bytes[5];
+        buffer[6] = bytes[6];
+        buffer[7] = bytes[7];
+
+        send_e_link(cmd, 1);
+        send_e_link(buffer, 8);
+        printf("Case Error thresholds ALT\n");
     } else if (!strcmp(command,"Step AZ")){        //STEP Az
         *cmd = CMD_STP_AZ;
         short step = (short) strtoul(value, NULL, 10);

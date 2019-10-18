@@ -47,6 +47,12 @@
       <row>
         <col id="0" translatable="yes">Center Telescope</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">Error thresholds ALT</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Error thresholds AZ</col>
+      </row>
     </data>
   </object>
   <object class="GtkWindow" id="window">
