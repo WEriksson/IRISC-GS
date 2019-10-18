@@ -19,6 +19,7 @@
 #define CMD_STP_AZ 80
 #define CMD_STP_ALT 85
 #define CMD_ENCODER 90
+#define CMD_CENTER 95
 
 
 int init_telecommand(void* args);

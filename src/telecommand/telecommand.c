@@ -70,16 +70,61 @@ int check_command(const char command[20],const char value[20]){
         //*cmd = CMD_STAR;
         printf("Case STAR\n");
     } else if (!strcmp(command,"NIR Exposure")){        //NIR_EXP
-        //*cmd = CMD_NIR_EXP;
+        *cmd = CMD_NIR_EXP;
+        int data = (int) strtol(value, NULL, 10);
+
+        char* bytes = (char*)&data;
+
+        buffer[0] = bytes[0];
+        buffer[1] = bytes[1];
+        buffer[2] = bytes[2];
+        buffer[3] = bytes[3];
+
+        send_e_link(cmd, 1);
+        send_e_link(buffer, 4);
+        
         printf("Case NIR_EXP\n");
     } else if (!strcmp(command,"NIR Gain")){        //NIR_GAI
-        //*cmd = CMD_NIR_GAI;
+        *cmd = CMD_NIR_GAI;
+        int data = (int) strtol(value, NULL, 10);
+
+        char* bytes = (char*)&data;
+
+        buffer[0] = bytes[0];
+        buffer[1] = bytes[1];
+        buffer[2] = bytes[2];
+        buffer[3] = bytes[3];
+
+        send_e_link(cmd, 1);
+        send_e_link(buffer, 4);
         printf("Case NIR_GAI\n");
     } else if (!strcmp(command,"ST Exposure")){        //ST_EXP
-        //*cmd = CMD_ST_EXP;
+        *cmd = CMD_ST_EXP;
+        int data = (int) strtol(value, NULL, 10);
+
+        char* bytes = (char*)&data;
+
+        buffer[0] = bytes[0];
+        buffer[1] = bytes[1];
+        buffer[2] = bytes[2];
+        buffer[3] = bytes[3];
+
+        send_e_link(cmd, 1);
+        send_e_link(buffer, 4);
         printf("Case ST_EXP\n");
     } else if (!strcmp(command,"ST Gain")){        //ST_GAI
-        //*cmd = CMD_ST_GAI;
+        *cmd = CMD_ST_GAI;
+        int data = (int) strtol(value, NULL, 10);
+
+        char* bytes = (char*)&data;
+
+        buffer[0] = bytes[0];
+        buffer[1] = bytes[1];
+        buffer[2] = bytes[2];
+        buffer[3] = bytes[3];
+
+        send_e_link(cmd, 1);
+        send_e_link(buffer, 4);
         printf("Case ST_GAI\n");
     } else if (!strcmp(command,"Step AZ")){        //STEP Az
         *cmd = CMD_STP_AZ;
@@ -110,6 +155,11 @@ int check_command(const char command[20],const char value[20]){
         send_e_link(cmd, 1);
         send_e_link(buffer, 2);
         printf("Case STP_ALT\n");
+    } else if (!strcmp(command,"Center Telescope")){        //Center telescope
+        cmd[0] = CMD_CENTER;
+        printf("Centering telescope\n");
+        send_e_link(cmd, 1);
+        printf("Case Center\n");
     } else {
         printf("Else\n");
         
