@@ -53,6 +53,12 @@
       <row>
         <col id="0" translatable="yes">Error thresholds AZ</col>
       </row>
+      <row>
+        <col id="0" translatable="yes">Stop Motors</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Start Motors</col>
+      </row>
     </data>
   </object>
   <object class="GtkWindow" id="window">

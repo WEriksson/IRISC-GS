@@ -196,6 +196,16 @@ int check_command(const char command[20],const char value[20]){
         printf("Centering telescope\n");
         send_e_link(cmd, 1);
         printf("Case Center\n");
+    } else if (!strcmp(command,"Stop Motors")){        //Stop motors
+        cmd[0] = CMD_STOP_MOTORS;
+        printf("Stopping motors\n");
+        send_e_link(cmd, 1);
+        printf("Case Stop Motors\n");
+    } else if (!strcmp(command,"Start Motors")){        //Stop motors
+        cmd[0] = CMD_START_MOTORS;
+        printf("Starting motors\n");
+        send_e_link(cmd, 1);
+        printf("Case Start Motors\n");
     } else {
         printf("Else\n");
         
