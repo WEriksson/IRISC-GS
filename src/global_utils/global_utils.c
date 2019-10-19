@@ -81,8 +81,10 @@ int init_global_utils(void* args){
     /*
      * Open files for logging
      */
-    tc_logg_file = fopen("/home/zodox/Desktop/IRISC-GS-FILES/tc_logg.txt", "a");
-    tm_logg_file = fopen("/home/zodox/Desktop/IRISC-GS-FILES/tm_logg.txt", "a");
+    //tc_logg_file = fopen("/home/zodox/Desktop/IRISC-GS-FILES/tc_logg.txt", "a");
+    //tm_logg_file = fopen("/home/zodox/Desktop/IRISC-GS-FILES/tm_logg.txt", "a");
+    tc_logg_file = fopen("../IRISC-GS-FILES/tc_logg.txt", "a");
+    tm_logg_file = fopen("../IRISC-GS-FILES/tm_logg.txt", "a");
     
 
     return SUCCESS;

@@ -49,7 +49,7 @@ int check_command(const char command[20],const char value[20]){
 
         printf("Datarate sent\n");
 
-        printf("Set Datarate to: %d\n", ret);
+        printf("Set Datarate to: %d\n", datarate);
     } else if (!strcmp(command,"Reboot")){    //Reboot
         //*cmd = CMD_REBOOT;
         printf("Case Shutdown\n");
@@ -206,6 +206,11 @@ int check_command(const char command[20],const char value[20]){
         printf("Starting motors\n");
         send_e_link(cmd, 1);
         printf("Case Start Motors\n");
+    } else if (!strcmp(command,"Rotate Cycle")){        //Rotate Cycle
+        cmd[0] = CMD_ROT_CYCLE;
+        printf("Rotate Cycle telescope\n");
+        send_e_link(cmd, 1);
+        printf("Case Rotate Cycle\n");
     } else {
         printf("Else\n");
         
